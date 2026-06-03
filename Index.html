@@ -1,0 +1,1287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>E n' G Bakery - Karangahan | Admin Dashboard</title>
+    <link rel="icon" href="public/assets/pictures/En%27G%20Bakery%20Logo.png" type="image/png">
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+        integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.1/flowbite.min.css" rel="stylesheet" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/simple-datatables@9.0.3"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.1/flowbite.min.js"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#007B4C',
+                        secondary: '#005A36'
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-gray-50 font-sans">
+    <nav class="fixed top-0 z-50 w-full bg-white border-b border-gray-200">
+        <div class="px-3 py-3 lg:px-5 lg:pl-3">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center justify-start rtl:justify-end">
+                    <button data-drawer-target="logo-sidebar" data-drawer-toggle="logo-sidebar" aria-controls="logo-sidebar"
+                        type="button"
+                        class="inline-flex items-center p-2 text-sm text-gray-500 rounded-lg sm:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200">
+                        <span class="sr-only">Open sidebar</span>
+                        <svg class="w-6 h-6" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path clip-rule="evenodd" fill-rule="evenodd"
+                                d="M2 4.75A.75.75 0 012.75 4h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 4.75zm0 10.5a.75.75 0 01.75-.75h7.5a.75.75 0 010 1.5h-7.5a.75.75 0 01-.75-.75zM2 10a.75.75 0 01.75-.75h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 10z">
+                            </path>
+                        </svg>
+                    </button>
+                    <a href="javascript:void(0)" class="flex items-center justify-center ms-2 sm:ms-4 md:me-24 min-w-0">
+                        <img src="public/assets/pictures/En%27G%20Bakery%20Logo.png" class="h-6 me-1 sm:me-2 shrink-0"
+                            alt="En'G Bakery Logo" />
+                        <span
+                            class="self-center text-base sm:text-xl lg:text-2xl leading-tight font-semibold whitespace-nowrap text-primary max-w-[170px] sm:max-w-none truncate">
+                            E n' G Bakery - Karangahan
+                        </span>
+                    </a>
+                </div>
+                <div class="flex items-center">
+                    <div class="flex items-center gap-2 sm:gap-3 ms-3">
+                        <div class="relative" id="notification-wrapper">
+                            <button id="notification-bell" type="button"
+                                class="relative p-2 text-gray-500 rounded-full hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 transition-colors duration-200"
+                                aria-label="Notifications" data-dropdown-toggle="notification-dropdown" data-dropdown-placement="bottom-end">
+                                <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                    stroke="currentColor" stroke-width="2">
+                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                        d="M14.857 17.082a23.848 23.848 0 005.454-1.31A8.967 8.967 0 0118 9.75v-.7V9A6 6 0 006 9v.75a8.967 8.967 0 01-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 01-5.714 0m5.714 0a3 3 0 11-5.714 0" />
+                                </svg>
+                                <span
+                                    class="absolute -top-0.5 -right-0.5 bg-red-500 text-white text-[10px] font-bold rounded-full min-w-[18px] h-[18px] flex items-center justify-center px-1 ring-2 ring-white">3</span>
+                            </button>
+                            <div id="notification-dropdown"
+                                class="hidden absolute right-0 mt-2 w-80 sm:w-96 bg-white rounded-lg shadow-xl border border-gray-200 z-[100] max-h-[480px] flex flex-col"
+                                style="min-width: 320px;">
+                                <div class="flex items-center justify-between px-4 py-3 border-b border-gray-100 bg-gray-50 rounded-t-lg">
+                                    <h3 class="text-sm font-semibold text-gray-800">
+                                        <i class="fas fa-bell text-primary mr-1"></i> Notifications
+                                    </h3>
+                                    <button type="button"
+                                        class="text-xs text-primary hover:text-secondary font-medium hover:underline transition-colors">
+                                        Mark all read
+                                    </button>
+                                </div>
+                                <div class="overflow-y-auto flex-1" style="max-height: 380px;">
+                                    <div class="border-b border-gray-100 cursor-pointer hover:bg-gray-50 transition-colors duration-150 border-l-4 border-l-orange-500 bg-orange-50/40">
+                                        <div class="flex items-start gap-3 px-4 py-3">
+                                            <div class="flex-shrink-0 mt-0.5">
+                                                <div class="w-9 h-9 rounded-full bg-orange-500 flex items-center justify-center shadow-sm">
+                                                    <i class="fas fa-boxes-stacked text-white text-sm"></i>
+                                                </div>
+                                            </div>
+                                            <div class="flex-1 min-w-0">
+                                                <p class="text-sm font-medium text-gray-800 leading-tight">Low stock alert</p>
+                                                <p class="text-xs text-gray-500 mt-1 line-clamp-2">Cheese Roll, Tuna Bun, and Spanish Bread are close to the reorder point.</p>
+                                                <p class="text-[11px] text-gray-400 mt-1.5"><i class="far fa-clock mr-0.5"></i> 10 minutes ago</p>
+                                            </div>
+                                            <span class="flex-shrink-0 w-2 h-2 rounded-full bg-primary mt-2"></span>
+                                        </div>
+                                    </div>
+                                    <div class="border-b border-gray-100 cursor-pointer hover:bg-gray-50 transition-colors duration-150 border-l-4 border-l-blue-500 bg-white">
+                                        <div class="flex items-start gap-3 px-4 py-3">
+                                            <div class="flex-shrink-0 mt-0.5">
+                                                <div class="w-9 h-9 rounded-full bg-blue-500 flex items-center justify-center shadow-sm">
+                                                    <i class="fas fa-truck text-white text-sm"></i>
+                                                </div>
+                                            </div>
+                                            <div class="flex-1 min-w-0">
+                                                <p class="text-sm font-medium text-gray-800 leading-tight">Distribution scheduled</p>
+                                                <p class="text-xs text-gray-500 mt-1 line-clamp-2">Today's production batch is ready for dispatch.</p>
+                                                <p class="text-[11px] text-gray-400 mt-1.5"><i class="far fa-clock mr-0.5"></i> 1 hour ago</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="border-b border-gray-100 cursor-pointer hover:bg-gray-50 transition-colors duration-150 border-l-4 border-l-green-500 bg-white">
+                                        <div class="flex items-start gap-3 px-4 py-3">
+                                            <div class="flex-shrink-0 mt-0.5">
+                                                <div class="w-9 h-9 rounded-full bg-green-500 flex items-center justify-center shadow-sm">
+                                                    <i class="fas fa-circle-info text-white text-sm"></i>
+                                                </div>
+                                            </div>
+                                            <div class="flex-1 min-w-0">
+                                                <p class="text-sm font-medium text-gray-800 leading-tight">Dashboard preview ready</p>
+                                                <p class="text-xs text-gray-500 mt-1 line-clamp-2">This static admin view is prepared for GitHub deployment.</p>
+                                                <p class="text-[11px] text-gray-400 mt-1.5"><i class="far fa-clock mr-0.5"></i> Today</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <button type="button"
+                                class="flex items-center justify-center text-sm bg-gray-800 rounded-full shrink-0 focus:ring-4 focus:ring-gray-300"
+                                aria-expanded="false" data-dropdown-toggle="dropdown-user">
+                                <span class="sr-only">Open user menu</span>
+                                <img class="w-8 h-8 min-w-8 min-h-8 aspect-square rounded-full object-cover"
+                                    src="public/assets/pictures/En%27G%20Bakery%20Logo.png" alt="user photo">
+                            </button>
+                        </div>
+                        <div class="z-50 hidden my-4 text-base list-none bg-white divide-y divide-gray-100 rounded shadow"
+                            id="dropdown-user">
+                            <div class="px-4 py-3" role="none">
+                                <p class="text-sm text-gray-900" role="none">
+                                    Admin User - Administrator
+                                </p>
+                                <p class="text-sm font-medium text-gray-900 truncate" role="none">
+                                    admin@example.com
+                                </p>
+                            </div>
+                            <ul class="py-1" role="none">
+                                <li>
+                                    <a href="javascript:void(0)"
+                                        class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                                        role="menuitem">Account Settings</a>
+                                </li>
+                                <li>
+                                    <a href="javascript:void(0)"
+                                        class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                                        role="menuitem">Logout</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <aside id="logo-sidebar"
+        class="fixed top-0 left-0 z-40 w-60 h-screen pt-[70px] sm:pt-[60px] transition-transform -translate-x-full bg-white border-r border-gray-200 sm:translate-x-0"
+        aria-label="Sidebar">
+        <div class="h-full px-3 pb-4 overflow-y-auto bg-white flex flex-col">
+            <ul class="space-y-2 font-medium flex-1">
+                <li class="pt-2 mt-2 border-t border-gray-100">
+                    <a href="javascript:void(0)"
+                        class="flex items-center p-2 text-gray-900 rounded-lg hover:bg-secondary group transition-colors duration-300 bg-primary">
+                        <svg class="w-6 h-6 text-white transition duration-300 group-hover:text-gray-200" aria-hidden="true"
+                            xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+                            stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+                        </svg>
+                        <span class="flex-1 ms-3 whitespace-nowrap group-hover:text-gray-200 transition-colors duration-300 text-white">Dashboard</span>
+                    </a>
+                </li>
+                <li class="pt-2 mt-2 border-t border-gray-100">
+                    <a href="javascript:void(0)"
+                        class="flex items-center p-2 text-gray-900 rounded-lg hover:bg-secondary group transition-colors duration-300">
+                        <svg class="w-6 h-6 text-gray-900 transition duration-300 group-hover:text-gray-200" aria-hidden="true"
+                            xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+                            stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
+                        </svg>
+                        <span class="flex-1 ms-3 whitespace-nowrap group-hover:text-gray-200 transition-colors duration-300">Material Costing</span>
+                    </a>
+                </li>
+                <li class="pt-2 mt-2 border-t border-gray-100">
+                    <a href="javascript:void(0)"
+                        class="flex items-center p-2 text-gray-900 rounded-lg hover:bg-secondary group transition-colors duration-300">
+                        <svg class="w-6 h-6 text-gray-900 transition duration-300 group-hover:text-gray-200" aria-hidden="true"
+                            xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+                            stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" />
+                        </svg>
+                        <span class="flex-1 ms-3 whitespace-nowrap group-hover:text-gray-200 transition-colors duration-300">Material Stock</span>
+                    </a>
+                </li>
+                <li class="pt-2 mt-2 border-t border-gray-100">
+                    <a href="javascript:void(0)"
+                        class="flex items-center p-2 text-gray-900 rounded-lg hover:bg-secondary group transition-colors duration-300">
+                        <svg class="w-6 h-6 text-gray-900 transition duration-300 group-hover:text-gray-200" aria-hidden="true"
+                            xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+                            stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
+                        </svg>
+                        <span class="flex-1 ms-3 whitespace-nowrap group-hover:text-gray-200 transition-colors duration-300">Product</span>
+                    </a>
+                </li>
+                <li class="pt-2 mt-2 border-t border-gray-100">
+                    <a href="javascript:void(0)"
+                        class="flex items-center p-2 text-gray-900 rounded-lg hover:bg-secondary group transition-colors duration-300">
+                        <svg class="w-6 h-6 text-gray-900 transition duration-300 group-hover:text-gray-200" aria-hidden="true"
+                            xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+                            stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" />
+                        </svg>
+                        <span class="flex-1 ms-3 whitespace-nowrap group-hover:text-gray-200 transition-colors duration-300">Inventory</span>
+                    </a>
+                </li>
+                <li class="pt-2 mt-2 border-t border-gray-100">
+                    <a href="javascript:void(0)"
+                        class="flex items-center p-2 text-gray-900 rounded-lg hover:bg-secondary group transition-colors duration-300">
+                        <svg class="w-6 h-6 text-gray-900 transition duration-300 group-hover:text-gray-200" aria-hidden="true"
+                            xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+                            stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+                        </svg>
+                        <span class="flex-1 ms-3 whitespace-nowrap group-hover:text-gray-200 transition-colors duration-300">Order</span>
+                    </a>
+                </li>
+                <li class="pt-2 mt-2 border-t border-gray-100">
+                    <button type="button"
+                        class="flex items-center w-full p-2 text-gray-900 rounded-lg hover:bg-secondary group transition-colors duration-300"
+                        aria-controls="dropdown-sales" data-collapse-toggle="dropdown-sales">
+                        <svg class="w-6 h-6 text-gray-900 transition duration-300 group-hover:text-gray-200" aria-hidden="true"
+                            xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+                            stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
+                        </svg>
+                        <span class="flex-1 ms-3 text-left whitespace-nowrap group-hover:text-gray-200 transition-colors duration-300">Sales</span>
+                        <svg class="w-4 h-4 text-gray-900 group-hover:text-gray-200" aria-hidden="true"
+                            xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+                            stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+                        </svg>
+                    </button>
+                    <ul id="dropdown-sales" class="py-2 space-y-1 hidden">
+                        <li>
+                            <a href="javascript:void(0)"
+                                class="flex items-center w-full p-2 pl-11 text-gray-900 rounded-lg hover:bg-gray-100 group transition-colors duration-300">
+                                <i class="fas fa-history mr-2 text-gray-500"></i>
+                                <span class="text-sm">Transactions History</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="javascript:void(0)"
+                                class="flex items-center w-full p-2 pl-11 text-gray-900 rounded-lg hover:bg-gray-100 group transition-colors duration-300">
+                                <i class="fas fa-receipt mr-2 text-gray-500"></i>
+                                <span class="text-sm">Daily Remittance</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="javascript:void(0)"
+                                class="flex items-center w-full p-2 pl-11 text-gray-900 rounded-lg hover:bg-gray-100 group transition-colors duration-300">
+                                <i class="fas fa-file-invoice-dollar mr-2 text-gray-500"></i>
+                                <span class="text-sm">Remittance History</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="pt-2 mt-2 border-t border-gray-100">
+                    <a href="javascript:void(0)"
+                        class="flex items-center p-2 text-gray-900 rounded-lg hover:bg-secondary group transition-colors duration-300">
+                        <svg class="w-6 h-6 text-gray-900 transition duration-300 group-hover:text-gray-200" aria-hidden="true"
+                            xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+                            stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                        </svg>
+                        <span class="flex-1 ms-3 whitespace-nowrap group-hover:text-gray-200 transition-colors duration-300">Utility</span>
+                    </a>
+                </li>
+                <li class="pt-2 mt-2 border-t border-gray-100">
+                    <a href="javascript:void(0)"
+                        class="flex items-center p-2 text-gray-900 rounded-lg hover:bg-secondary group transition-colors duration-300">
+                        <svg class="w-6 h-6 text-gray-900 transition duration-300 group-hover:text-gray-200" aria-hidden="true"
+                            xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+                            stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" />
+                        </svg>
+                        <span class="flex-1 ms-3 whitespace-nowrap group-hover:text-gray-200 transition-colors duration-300">Distribution</span>
+                    </a>
+                </li>
+                <li class="pt-2 mt-2 border-t border-gray-100 sm:hidden">
+                    <a href="javascript:void(0)"
+                        class="flex items-center p-2 text-gray-900 rounded-lg hover:bg-secondary group transition-colors duration-300">
+                        <svg class="w-6 h-6 text-gray-900 transition duration-300 group-hover:text-gray-200" aria-hidden="true"
+                            xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+                            stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+                        </svg>
+                        <span class="flex-1 ms-3 whitespace-nowrap group-hover:text-gray-200 transition-colors duration-300">Manage Employee</span>
+                    </a>
+                </li>
+            </ul>
+            <div class="pt-3 border-t border-gray-100 text-xs text-gray-400">
+                Static admin preview only.
+            </div>
+        </div>
+    </aside>
+
+    <div class="hidden sm:block fixed left-0 bottom-0 z-40 w-60 px-3 pb-4">
+        <div class="pt-2 mt-auto border-t border-gray-100 bg-white rounded-t-xl shadow-sm">
+            <a href="javascript:void(0)"
+                class="flex items-center p-2 text-gray-900 rounded-lg hover:bg-secondary group transition-colors duration-300">
+                <svg class="w-6 h-6 text-gray-900 transition duration-300 group-hover:text-gray-200" aria-hidden="true"
+                    xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+                    stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+                </svg>
+                <span class="flex-1 ms-3 whitespace-nowrap group-hover:text-gray-200 transition-colors duration-300">Manage Employee</span>
+            </a>
+        </div>
+    </div>
+
+    <main class="p-3 sm:p-4 sm:ml-60">
+        <div class="mt-14">
+            <div class="mb-4 sm:mb-6 bg-gradient-to-r from-primary to-secondary rounded-xl p-4 sm:p-6 text-white shadow-lg">
+                <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between">
+                    <div>
+                        <p class="text-sm sm:text-base text-white/80">Good <span id="timeOfDay">Morning</span>,</p>
+                        <h1 class="text-xl sm:text-2xl font-bold"><span id="adminName">Admin</span>!</h1>
+                        <p class="text-xs sm:text-sm text-white/70 mt-1">
+                            <i class="far fa-calendar-alt mr-1"></i>
+                            <span id="currentDate">--</span> · <span id="currentTime">--</span>
+                        </p>
+                    </div>
+                    <div id="inventoryBadge" class="mt-3 sm:mt-0"></div>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 mb-4 sm:mb-6">
+                <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-3 sm:p-4 hover:shadow-md transition-shadow">
+                    <div class="flex items-center justify-between">
+                        <div class="flex-1 min-w-0">
+                            <p class="text-xs sm:text-sm font-medium text-gray-500 truncate">Today's Sales</p>
+                            <p class="text-lg sm:text-2xl font-bold text-gray-900 mt-1" id="todaysSales">₱0.00</p>
+                        </div>
+                        <div class="flex-shrink-0 w-10 h-10 sm:w-12 sm:h-12 bg-primary/10 rounded-full flex items-center justify-center ml-2">
+                            <i class="fas fa-peso-sign text-primary text-base sm:text-xl"></i>
+                        </div>
+                    </div>
+                    <div class="mt-2 sm:mt-3 flex items-center text-xs">
+                        <span class="text-green-600 font-medium"><i class="fas fa-arrow-trend-up mr-1"></i>Revenue today</span>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-3 sm:p-4 hover:shadow-md transition-shadow">
+                    <div class="flex items-center justify-between">
+                        <div class="flex-1 min-w-0">
+                            <p class="text-xs sm:text-sm font-medium text-gray-500 truncate">Items Sold</p>
+                            <p class="text-lg sm:text-2xl font-bold text-gray-900 mt-1" id="todaysItemsSold">0</p>
+                        </div>
+                        <div class="flex-shrink-0 w-10 h-10 sm:w-12 sm:h-12 bg-blue-50 rounded-full flex items-center justify-center ml-2">
+                            <i class="fas fa-box text-blue-600 text-base sm:text-xl"></i>
+                        </div>
+                    </div>
+                    <div class="mt-2 sm:mt-3 flex items-center text-xs">
+                        <span class="text-blue-600 font-medium"><i class="fas fa-chart-line mr-1"></i>Today's total</span>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-3 sm:p-4 hover:shadow-md transition-shadow">
+                    <div class="flex items-center justify-between">
+                        <div class="flex-1 min-w-0">
+                            <p class="text-xs sm:text-sm font-medium text-gray-500 truncate">Orders Today</p>
+                            <p class="text-lg sm:text-2xl font-bold text-gray-900 mt-1" id="todaysOrderCount">0</p>
+                        </div>
+                        <div class="flex-shrink-0 w-10 h-10 sm:w-12 sm:h-12 bg-amber-50 rounded-full flex items-center justify-center ml-2">
+                            <i class="fas fa-receipt text-amber-600 text-base sm:text-xl"></i>
+                        </div>
+                    </div>
+                    <div class="mt-2 sm:mt-3 flex items-center text-xs">
+                        <span class="text-amber-600 font-medium"><i class="fas fa-clock mr-1"></i>Completed</span>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-3 sm:p-4 hover:shadow-md transition-shadow">
+                    <div class="flex items-center justify-between">
+                        <div class="flex-1 min-w-0">
+                            <p class="text-xs sm:text-sm font-medium text-gray-500 truncate">Avg Order Value</p>
+                            <p class="text-lg sm:text-2xl font-bold text-gray-900 mt-1" id="avgOrderValue">₱0.00</p>
+                        </div>
+                        <div class="flex-shrink-0 w-10 h-10 sm:w-12 sm:h-12 bg-purple-50 rounded-full flex items-center justify-center ml-2">
+                            <i class="fas fa-chart-pie text-purple-600 text-base sm:text-xl"></i>
+                        </div>
+                    </div>
+                    <div class="mt-2 sm:mt-3 flex items-center text-xs">
+                        <span class="text-purple-600 font-medium"><i class="fas fa-trending-up mr-1"></i>Per transaction</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-3 gap-3 sm:gap-4 mb-4 sm:mb-6">
+                <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-3 sm:p-4 hover:shadow-md transition-shadow">
+                    <div class="flex items-center min-w-0 flex-1">
+                        <div class="w-8 h-8 sm:w-10 sm:h-10 bg-amber-100 rounded-lg flex items-center justify-center mr-2 sm:mr-3 flex-shrink-0">
+                            <i class="fas fa-bread-slice text-amber-600 text-xs sm:text-sm"></i>
+                        </div>
+                        <div class="min-w-0">
+                            <p class="text-xs sm:text-sm font-medium text-gray-500 truncate">Bakery</p>
+                            <p class="text-sm sm:text-lg font-bold text-gray-900" id="bakerySales">₱0.00</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-3 sm:p-4 hover:shadow-md transition-shadow">
+                    <div class="flex items-center min-w-0 flex-1">
+                        <div class="w-8 h-8 sm:w-10 sm:h-10 bg-blue-100 rounded-lg flex items-center justify-center mr-2 sm:mr-3 flex-shrink-0">
+                            <i class="fas fa-mug-hot text-blue-600 text-xs sm:text-sm"></i>
+                        </div>
+                        <div class="min-w-0">
+                            <p class="text-xs sm:text-sm font-medium text-gray-500 truncate">Drinks</p>
+                            <p class="text-sm sm:text-lg font-bold text-gray-900" id="drinksSales">₱0.00</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-3 sm:p-4 hover:shadow-md transition-shadow">
+                    <div class="flex items-center min-w-0 flex-1">
+                        <div class="w-8 h-8 sm:w-10 sm:h-10 bg-green-100 rounded-lg flex items-center justify-center mr-2 sm:mr-3 flex-shrink-0">
+                            <i class="fas fa-shopping-basket text-green-600 text-xs sm:text-sm"></i>
+                        </div>
+                        <div class="min-w-0">
+                            <p class="text-xs sm:text-sm font-medium text-gray-500 truncate">Grocery</p>
+                            <p class="text-sm sm:text-lg font-bold text-gray-900" id="grocerySales">₱0.00</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-3 sm:p-4 mb-4 sm:mb-6">
+                <h3 class="text-sm sm:text-base font-semibold text-gray-900 mb-3 sm:mb-4 flex items-center">
+                    <i class="fas fa-credit-card text-primary mr-2"></i>Payment Methods
+                </h3>
+                <div class="grid grid-cols-3 gap-3">
+                    <div class="flex items-center p-2 sm:p-3 bg-green-50 rounded-lg">
+                        <div class="w-8 h-8 sm:w-10 sm:h-10 rounded-lg flex items-center justify-center mr-2 sm:mr-3 flex-shrink-0">
+                            <i class="fas fa-wallet text-green-600 text-xl sm:text-2xl"></i>
+                        </div>
+                        <div class="min-w-0">
+                            <p class="text-xs text-green-700 font-medium">Cash</p>
+                            <p class="text-sm sm:text-base font-bold text-gray-900" id="cashSales">₱0.00</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center p-3 sm:p-4 rounded-lg bg-blue-50">
+                        <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-lg flex items-center justify-center mr-3 sm:mr-4 flex-shrink-0">
+                            <img src="public/assets/pictures/gcash.svg" alt="GCash" class="w-6 h-6 sm:w-7 sm:h-7 object-contain">
+                        </div>
+                        <div class="min-w-0 flex-1">
+                            <p class="text-xs sm:text-sm font-semibold text-blue-600 mb-0.5">GCash</p>
+                            <p class="text-base sm:text-lg font-bold text-gray-900" id="gcashSales">₱0.00</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center p-2 sm:p-3 rounded-lg" style="background-color: #fff0f3;">
+                        <div class="w-8 h-8 sm:w-10 sm:h-10 rounded-lg flex items-center justify-center mr-2 sm:mr-3 flex-shrink-0">
+                            <img src="public/assets/pictures/food-panda.svg" alt="FoodPanda" class="w-6 h-6 sm:w-7 sm:h-7 object-contain">
+                        </div>
+                        <div class="min-w-0">
+                            <p class="text-xs font-medium" style="color: #D70F64;">FoodPanda</p>
+                            <p class="text-sm sm:text-base font-bold text-gray-900" id="foodpandaSales">₱0.00</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-3 sm:gap-4 mb-4 sm:mb-6">
+                <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-3 sm:p-4">
+                    <h3 class="text-sm sm:text-base font-semibold text-gray-900 mb-3 sm:mb-4 flex items-center">
+                        <i class="fas fa-clipboard-list text-primary mr-2"></i>
+                        Today's Inventory
+                    </h3>
+                    <div id="inventorySummarySection"></div>
+                </div>
+
+                <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-3 sm:p-4 lg:col-span-2">
+                    <h3 class="text-sm sm:text-base font-semibold text-gray-900 mb-3 sm:mb-4 flex items-center">
+                        <i class="fas fa-exclamation-triangle text-amber-500 mr-2"></i>
+                        Low Stock Alert
+                        <span id="lowStockBadge" class="ml-2 px-2 py-0.5 bg-red-100 text-red-700 text-xs rounded-full hidden"></span>
+                    </h3>
+                    <div id="lowStockList"></div>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-3 sm:gap-4 mb-4 sm:mb-6">
+                <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-3 sm:p-4">
+                    <h3 class="text-sm sm:text-base font-semibold text-gray-900 mb-3 sm:mb-4 flex items-center">
+                        <i class="fas fa-fire text-orange-500 mr-2"></i>Best Sellers Today
+                    </h3>
+                    <div id="bestSellersList"></div>
+                </div>
+
+                <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-3 sm:p-4">
+                    <div class="flex items-center justify-between mb-3 sm:mb-4">
+                        <h3 class="text-sm sm:text-base font-semibold text-gray-900 flex items-center">
+                            <i class="fas fa-receipt text-primary mr-2"></i>Recent Orders
+                        </h3>
+                        <a href="javascript:void(0)" class="text-xs sm:text-sm text-primary hover:text-secondary font-medium">
+                            View All <i class="fas fa-chevron-right ml-1 text-xs"></i>
+                        </a>
+                    </div>
+                    <div id="recentOrdersList"></div>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-3 sm:p-4 mb-4 sm:mb-6">
+                <div class="flex flex-col items-start gap-3 mb-3 sm:mb-4">
+                    <h3 class="text-sm sm:text-base font-semibold text-gray-900 flex items-center" id="salesTrendTitle">
+                        <i class="fas fa-chart-line text-primary mr-2"></i>Sales Report Trend
+                    </h3>
+                    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 w-full">
+                        <div class="inline-flex rounded-lg border border-gray-200 overflow-hidden w-full sm:w-auto">
+                            <button type="button" data-type="line"
+                                class="sales-chart-type-toggle flex-1 sm:flex-none px-3 py-2 text-xs sm:text-sm font-medium text-white bg-primary">
+                                <i class="fas fa-chart-line mr-1"></i>Line
+                            </button>
+                            <button type="button" data-type="bar"
+                                class="sales-chart-type-toggle flex-1 sm:flex-none px-3 py-2 text-xs sm:text-sm font-medium text-gray-600 bg-white hover:bg-gray-50 border-l border-gray-200">
+                                <i class="fas fa-chart-bar mr-1"></i>Bar
+                            </button>
+                        </div>
+                        <div class="inline-flex rounded-lg border border-gray-200 overflow-hidden w-full sm:w-auto">
+                            <button type="button" data-mode="daily"
+                                class="sales-trend-toggle flex-1 sm:flex-none px-3 py-2 text-xs sm:text-sm font-medium text-white bg-primary">Daily</button>
+                            <button type="button" data-mode="weekly"
+                                class="sales-trend-toggle flex-1 sm:flex-none px-3 py-2 text-xs sm:text-sm font-medium text-gray-600 bg-white hover:bg-gray-50 border-l border-gray-200">Weekly</button>
+                            <button type="button" data-mode="monthly"
+                                class="sales-trend-toggle flex-1 sm:flex-none px-3 py-2 text-xs sm:text-sm font-medium text-gray-600 bg-white hover:bg-gray-50 border-l border-gray-200">Monthly</button>
+                        </div>
+                    </div>
+                </div>
+
+                <p id="salesTrendSubtitle" class="text-xs sm:text-sm text-gray-500 mb-3">Daily sales for the last 14 days.</p>
+
+                <div id="salesTrendCanvasWrap"
+                    class="relative h-56 sm:h-64 rounded-lg border border-gray-100 bg-gradient-to-b from-white to-gray-50 p-2 sm:p-3">
+                    <canvas id="salesTrendCanvas" class="w-full h-full"></canvas>
+                    <div id="salesTrendTooltip"
+                        class="hidden absolute z-20 pointer-events-none rounded-md bg-gray-900/95 text-white text-[11px] leading-tight px-2 py-1 shadow-lg whitespace-nowrap">
+                    </div>
+                </div>
+
+                <div class="flex flex-wrap justify-between items-center mt-3 pt-3 border-t border-gray-100 gap-2 text-xs sm:text-sm">
+                    <span class="text-gray-500"><i class="fas fa-arrow-down text-red-500 mr-1"></i>Low: <span id="salesTrendLow" class="font-semibold text-gray-700">₱0.00</span></span>
+                    <span class="text-gray-500"><i class="fas fa-arrow-up text-green-500 mr-1"></i>High: <span id="salesTrendHigh" class="font-semibold text-gray-700">₱0.00</span></span>
+                    <span class="text-primary font-semibold"><i class="fas fa-calculator mr-1"></i>Total: <span id="salesTrendTotal">₱0.00</span></span>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-3 sm:p-4 mb-4 sm:mb-6">
+                <h3 class="text-sm sm:text-base font-semibold text-gray-900 mb-3 sm:mb-4 flex items-center">
+                    <i class="fas fa-database text-gray-500 mr-2"></i>System Overview
+                </h3>
+                <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                    <div class="flex items-center p-3 bg-gray-50 rounded-lg">
+                        <div class="w-10 h-10 bg-amber-100 rounded-lg flex items-center justify-center mr-3">
+                            <i class="fas fa-bread-slice text-amber-600"></i>
+                        </div>
+                        <div>
+                            <p class="text-xs text-gray-500">Products</p>
+                            <p class="text-lg font-bold text-gray-900" id="totalProducts">0</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center p-3 bg-gray-50 rounded-lg">
+                        <div class="w-10 h-10 bg-purple-100 rounded-lg flex items-center justify-center mr-3">
+                            <i class="fas fa-cubes text-purple-600"></i>
+                        </div>
+                        <div>
+                            <p class="text-xs text-gray-500">Raw Materials</p>
+                            <p class="text-lg font-bold text-gray-900" id="totalRawMaterials">0</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center p-3 bg-gray-50 rounded-lg">
+                        <div class="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center mr-3">
+                            <i class="fas fa-triangle-exclamation text-blue-600"></i>
+                        </div>
+                        <div>
+                            <p class="text-xs text-gray-500">Low Stock</p>
+                            <p class="text-lg font-bold text-gray-900" id="lowStockCount">0</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center p-3 bg-gray-50 rounded-lg">
+                        <div class="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center mr-3">
+                            <i class="fas fa-calendar-check text-green-600"></i>
+                        </div>
+                        <div>
+                            <p class="text-xs text-gray-500">Inventory</p>
+                            <p class="text-lg font-bold text-gray-900" id="inventoryStatus">Pending</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-3 sm:p-4">
+                <h3 class="text-sm sm:text-base font-semibold text-gray-900 mb-3 sm:mb-4 flex items-center">
+                    <i class="fas fa-bolt text-yellow-500 mr-2"></i>Quick Actions
+                </h3>
+                <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-3">
+                    <a href="javascript:void(0)" class="flex flex-col items-center justify-center p-3 sm:p-4 bg-primary/5 rounded-xl hover:bg-primary/10 transition-colors group">
+                        <div class="w-10 h-10 sm:w-12 sm:h-12 bg-primary rounded-full flex items-center justify-center mb-2 group-hover:scale-110 transition-transform">
+                            <i class="fas fa-cart-plus text-white text-base sm:text-lg"></i>
+                        </div>
+                        <span class="text-xs sm:text-sm font-medium text-gray-700">New Order</span>
+                    </a>
+                    <a href="javascript:void(0)" class="flex flex-col items-center justify-center p-3 sm:p-4 bg-blue-50 rounded-xl hover:bg-blue-100 transition-colors group">
+                        <div class="w-10 h-10 sm:w-12 sm:h-12 bg-blue-500 rounded-full flex items-center justify-center mb-2 group-hover:scale-110 transition-transform">
+                            <i class="fas fa-clipboard-check text-white text-base sm:text-lg"></i>
+                        </div>
+                        <span class="text-xs sm:text-sm font-medium text-gray-700">Inventory</span>
+                    </a>
+                    <a href="javascript:void(0)" class="flex flex-col items-center justify-center p-3 sm:p-4 bg-amber-50 rounded-xl hover:bg-amber-100 transition-colors group">
+                        <div class="w-10 h-10 sm:w-12 sm:h-12 bg-amber-500 rounded-full flex items-center justify-center mb-2 group-hover:scale-110 transition-transform">
+                            <i class="fas fa-file-invoice-dollar text-white text-base sm:text-lg"></i>
+                        </div>
+                        <span class="text-xs sm:text-sm font-medium text-gray-700">Remittance</span>
+                    </a>
+                    <a href="javascript:void(0)" class="flex flex-col items-center justify-center p-3 sm:p-4 bg-purple-50 rounded-xl hover:bg-purple-100 transition-colors group">
+                        <div class="w-10 h-10 sm:w-12 sm:h-12 bg-purple-500 rounded-full flex items-center justify-center mb-2 group-hover:scale-110 transition-transform">
+                            <i class="fas fa-box-open text-white text-base sm:text-lg"></i>
+                        </div>
+                        <span class="text-xs sm:text-sm font-medium text-gray-700">Products</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        let salesTrendData = { daily: [], weekly: [], monthly: [] };
+        let currentTrendMode = 'daily';
+        let currentChartType = 'line';
+        let trendRenderRafId = null;
+        let trendResizeTimer = null;
+        let trendState = { width: 0, height: 0, mode: '', type: '' };
+        let trendPlotPoints = [];
+        let trendLastPoints = [];
+
+        const trendEls = {
+            canvas: null,
+            subtitle: null,
+            low: null,
+            high: null,
+            total: null,
+            title: null,
+            tooltip: null,
+            canvasWrap: null
+        };
+
+        const demoDashboardData = {
+            inventoryExists: true,
+            inventoryData: { time_start: '06:00:00' },
+            todaysSales: 18450.75,
+            todaysItemsSold: 286,
+            todaysOrderCount: 38,
+            bakerySales: 10980.50,
+            drinksSales: 3720.25,
+            grocerySales: 3750.00,
+            cashSales: 9220.00,
+            gcashSales: 5600.75,
+            foodpandaSales: 3630.00,
+            totalBeginningStock: 1280,
+            totalEndingStock: 470,
+            lowStockProducts: [
+                { product_name: 'Cheese Roll', ending_stock: 4 },
+                { product_name: 'Tuna Bun', ending_stock: 3 },
+                { product_name: 'Spanish Bread', ending_stock: 5 },
+                { product_name: 'Bottled Water', ending_stock: 2 },
+                { product_name: 'Pandesal Pack', ending_stock: 1 }
+            ],
+            bestSellers: [
+                { product_name: 'Cheese Roll', category: 'bakery', total_sold: 84, revenue: 2520 },
+                { product_name: 'Iced Coffee', category: 'drinks', total_sold: 56, revenue: 1680 },
+                { product_name: 'Tuna Bun', category: 'bakery', total_sold: 51, revenue: 1530 },
+                { product_name: 'Chocolate Cake Slice', category: 'bakery', total_sold: 34, revenue: 2380 },
+                { product_name: 'Cookies Pack', category: 'grocery', total_sold: 28, revenue: 1120 }
+            ],
+            recentOrders: [
+                { date_created: '2026-06-03', order_id: 1042, time_created: '08:15:00', total_payment_due: 480.00, order_type: 'walk-in', payment_method: 'cash' },
+                { date_created: '2026-06-03', order_id: 1041, time_created: '08:03:00', total_payment_due: 365.50, order_type: 'walk-in', payment_method: 'gcash' },
+                { date_created: '2026-06-03', order_id: 1040, time_created: '07:48:00', total_payment_due: 920.00, order_type: 'foodpanda', payment_method: 'cash' },
+                { date_created: '2026-06-03', order_id: 1039, time_created: '07:20:00', total_payment_due: 215.75, order_type: 'walk-in', payment_method: 'cash' },
+                { date_created: '2026-06-03', order_id: 1038, time_created: '07:05:00', total_payment_due: 640.00, order_type: 'walk-in', payment_method: 'gcash' }
+            ],
+            totalProducts: 64,
+            totalRawMaterials: 27,
+            salesTrend: {
+                daily: [
+                    { label: 'May 21', value: 9200 },
+                    { label: 'May 22', value: 7600 },
+                    { label: 'May 23', value: 11300 },
+                    { label: 'May 24', value: 8450 },
+                    { label: 'May 25', value: 9900 },
+                    { label: 'May 26', value: 12150 },
+                    { label: 'May 27', value: 10780 },
+                    { label: 'May 28', value: 13100 },
+                    { label: 'May 29', value: 11740 },
+                    { label: 'May 30', value: 14300 },
+                    { label: 'May 31', value: 15240 },
+                    { label: 'Jun 1', value: 13680 },
+                    { label: 'Jun 2', value: 16900 },
+                    { label: 'Jun 3', value: 18450 }
+                ],
+                weekly: [
+                    { label: 'Apr 1 - Apr 7', value: 49300 },
+                    { label: 'Apr 8 - Apr 14', value: 52850 },
+                    { label: 'Apr 15 - Apr 21', value: 47600 },
+                    { label: 'Apr 22 - Apr 28', value: 55240 },
+                    { label: 'Apr 29 - May 5', value: 58100 },
+                    { label: 'May 6 - May 12', value: 60450 },
+                    { label: 'May 13 - May 19', value: 62320 },
+                    { label: 'May 20 - May 26', value: 65840 }
+                ],
+                monthly: [
+                    { label: 'Jul', value: 205000 },
+                    { label: 'Aug', value: 198400 },
+                    { label: 'Sep', value: 214500 },
+                    { label: 'Oct', value: 221300 },
+                    { label: 'Nov', value: 236700 },
+                    { label: 'Dec', value: 249800 },
+                    { label: 'Jan', value: 226400 },
+                    { label: 'Feb', value: 241200 },
+                    { label: 'Mar', value: 258600 },
+                    { label: 'Apr', value: 263900 },
+                    { label: 'May', value: 279200 },
+                    { label: 'Jun', value: 291500 }
+                ]
+            }
+        };
+
+        function formatPeso(value) {
+            return '₱' + (Number(value) || 0).toLocaleString('en-PH', {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2
+            });
+        }
+
+        function escHtml(str) {
+            return $('<div>').text(str ?? '').html();
+        }
+
+        function capitalize(str) {
+            return str ? str.charAt(0).toUpperCase() + str.slice(1) : '';
+        }
+
+        function getTimeOfDay(date) {
+            const hour = date.getHours();
+            if (hour < 12) return 'Morning';
+            if (hour < 17) return 'Afternoon';
+            return 'Evening';
+        }
+
+        function updateClock() {
+            const now = new Date();
+            $('#timeOfDay').text(getTimeOfDay(now));
+            $('#currentDate').text(now.toLocaleDateString('en-PH', {
+                weekday: 'long',
+                month: 'long',
+                day: 'numeric',
+                year: 'numeric'
+            }));
+            $('#currentTime').text(now.toLocaleTimeString('en-PH', {
+                hour: 'numeric',
+                minute: '2-digit',
+                hour12: true
+            }));
+        }
+
+        function populateDashboard(data) {
+            const $badge = $('#inventoryBadge');
+            $badge.html(data.inventoryExists
+                ? `<span class="inline-flex items-center px-3 py-1.5 rounded-full text-xs font-medium bg-white/20 text-white backdrop-blur-sm">
+                   <span class="w-2 h-2 bg-green-400 rounded-full mr-1.5 animate-pulse"></span>Inventory Active
+               </span>`
+                : `<span class="inline-flex items-center px-3 py-1.5 rounded-full text-xs font-medium bg-white/20 text-white backdrop-blur-sm">
+                   <span class="w-2 h-2 bg-yellow-400 rounded-full mr-1.5"></span>No Inventory Today
+               </span>`
+            );
+
+            $('#todaysSales').text(formatPeso(data.todaysSales));
+            $('#todaysItemsSold').text(Number(data.todaysItemsSold).toLocaleString());
+            $('#todaysOrderCount').text(Number(data.todaysOrderCount).toLocaleString());
+            const avg = data.todaysOrderCount > 0 ? data.todaysSales / data.todaysOrderCount : 0;
+            $('#avgOrderValue').text(formatPeso(avg));
+
+            $('#bakerySales').text(formatPeso(data.bakerySales));
+            $('#drinksSales').text(formatPeso(data.drinksSales));
+            $('#grocerySales').text(formatPeso(data.grocerySales));
+            $('#cashSales').text(formatPeso(data.cashSales));
+            $('#gcashSales').text(formatPeso(data.gcashSales));
+            $('#foodpandaSales').text(formatPeso(data.foodpandaSales));
+
+            const $inventorySection = $('#inventorySummarySection');
+            if (data.inventoryExists && data.inventoryData) {
+                const sold = (data.totalBeginningStock ?? 0) - (data.totalEndingStock ?? 0);
+                const timeStarted = data.inventoryData.time_start
+                    ? `<div class="text-xs text-gray-500 text-center mt-2"><i class="far fa-clock mr-1"></i>Started at ${new Date('1970-01-01T' + data.inventoryData.time_start).toLocaleTimeString('en-PH', { hour: 'numeric', minute: '2-digit', hour12: true })}</div>`
+                    : '';
+                $inventorySection.html(`
+                <div class="space-y-3">
+                    <div class="flex justify-between items-center p-2 sm:p-3 bg-blue-50 rounded-lg">
+                        <span class="text-xs sm:text-sm text-gray-600">Beginning Stock</span>
+                        <span class="text-sm sm:text-base font-bold text-blue-700">${Number(data.totalBeginningStock).toLocaleString()}</span>
+                    </div>
+                    <div class="flex justify-between items-center p-2 sm:p-3 bg-green-50 rounded-lg">
+                        <span class="text-xs sm:text-sm text-gray-600">Remaining Stock</span>
+                        <span class="text-sm sm:text-base font-bold text-green-700">${Number(data.totalEndingStock).toLocaleString()}</span>
+                    </div>
+                    <div class="flex justify-between items-center p-2 sm:p-3 bg-amber-50 rounded-lg">
+                        <span class="text-xs sm:text-sm text-gray-600">Sold Today</span>
+                        <span class="text-sm sm:text-base font-bold text-amber-700">${Number(sold).toLocaleString()}</span>
+                    </div>
+                    ${timeStarted}
+                </div>`);
+            } else {
+                $inventorySection.html(`
+                <div class="text-center py-4 sm:py-6">
+                    <div class="w-12 h-12 sm:w-16 sm:h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-3">
+                        <i class="fas fa-clipboard-list text-gray-400 text-xl sm:text-2xl"></i>
+                    </div>
+                    <p class="text-xs sm:text-sm text-gray-500 mb-3">No inventory started today</p>
+                    <a href="javascript:void(0)" class="inline-flex items-center px-3 py-1.5 sm:px-4 sm:py-2 bg-primary text-white text-xs sm:text-sm font-medium rounded-lg hover:bg-secondary transition-colors">
+                        <i class="fas fa-plus mr-1.5"></i>Start Inventory
+                    </a>
+                </div>`);
+            }
+
+            const $lowStockList = $('#lowStockList');
+            const $lowStockBadge = $('#lowStockBadge');
+            const lowStock = data.lowStockProducts ?? [];
+
+            if (lowStock.length > 0) {
+                $lowStockBadge.text(lowStock.length).removeClass('hidden');
+                const items = lowStock.slice(0, 6).map(p => `
+                <div class="flex items-center justify-between p-2 sm:p-3 bg-red-50 rounded-lg border border-red-100">
+                    <div class="flex items-center min-w-0">
+                        <div class="w-7 h-7 sm:w-8 sm:h-8 bg-red-100 rounded-full flex items-center justify-center mr-2 flex-shrink-0">
+                            <i class="fas fa-bread-slice text-red-500 text-xs"></i>
+                        </div>
+                        <span class="text-xs sm:text-sm font-medium text-gray-900 truncate">${escHtml(p.product_name)}</span>
+                    </div>
+                    <span class="px-2 py-0.5 bg-red-200 text-red-800 text-xs font-bold rounded-full ml-2 flex-shrink-0">${p.ending_stock} left</span>
+                </div>`).join('');
+                $lowStockList.html(`<div class="grid grid-cols-1 sm:grid-cols-2 gap-2">${items}</div>`);
+            } else {
+                $lowStockBadge.addClass('hidden');
+                $lowStockList.html(`
+                <div class="text-center py-4 sm:py-6">
+                    <div class="w-12 h-12 sm:w-16 sm:h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-3">
+                        <i class="fas fa-check text-green-500 text-xl sm:text-2xl"></i>
+                    </div>
+                    <p class="text-xs sm:text-sm text-gray-500">All products are well-stocked!</p>
+                </div>`);
+            }
+
+            const $bestSellersList = $('#bestSellersList');
+            const sellers = data.bestSellers ?? [];
+            const rankColors = ['bg-yellow-400', 'bg-gray-300', 'bg-amber-600'];
+            if (sellers.length > 0) {
+                const items = sellers.map((p, i) => `
+                <div class="flex items-center justify-between p-2 sm:p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
+                    <div class="flex items-center min-w-0">
+                        <div class="w-6 h-6 sm:w-8 sm:h-8 ${rankColors[i] ?? 'bg-gray-200'} rounded-full flex items-center justify-center mr-2 sm:mr-3 flex-shrink-0">
+                            <span class="text-xs sm:text-sm font-bold text-white">${i + 1}</span>
+                        </div>
+                        <div class="min-w-0">
+                            <p class="text-xs sm:text-sm font-medium text-gray-900 truncate">${escHtml(p.product_name)}</p>
+                            <p class="text-xs text-gray-500">${capitalize(p.category)}</p>
+                        </div>
+                    </div>
+                    <div class="text-right ml-2 flex-shrink-0">
+                        <p class="text-xs sm:text-sm font-bold text-primary">${Number(p.total_sold).toLocaleString()} sold</p>
+                        <p class="text-xs text-gray-500">${formatPeso(p.revenue)}</p>
+                    </div>
+                </div>`).join('');
+                $bestSellersList.html(`<div class="space-y-2 sm:space-y-3">${items}</div>`);
+            } else {
+                $bestSellersList.html(`
+                <div class="text-center py-4 sm:py-6">
+                    <div class="w-12 h-12 sm:w-16 sm:h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-3">
+                        <i class="fas fa-shopping-bag text-gray-400 text-xl sm:text-2xl"></i>
+                    </div>
+                    <p class="text-xs sm:text-sm text-gray-500">No sales recorded today</p>
+                </div>`);
+            }
+
+            const $recentOrdersList = $('#recentOrdersList');
+            const orders = data.recentOrders ?? [];
+            if (orders.length > 0) {
+                const items = orders.map(o => {
+                    const isFoodpanda = (o.order_type ?? '') === 'foodpanda';
+                    const sub = isFoodpanda
+                        ? `· <span class="font-medium" style="color:#D70F64;">FoodPanda</span>`
+                        : `· ${capitalize(o.payment_method ?? '')} · <span class="text-gray-500">Walk-in</span>`;
+                    const time = o.time_created
+                        ? new Date('1970-01-01T' + o.time_created).toLocaleTimeString('en-PH', { hour: 'numeric', minute: '2-digit', hour12: true })
+                        : '';
+                    return `
+                    <div class="flex items-center justify-between p-2 sm:p-3 bg-gray-50 rounded-lg">
+                        <div class="flex items-center min-w-0">
+                            <div class="w-8 h-8 sm:w-10 sm:h-10 bg-primary/10 rounded-full flex items-center justify-center mr-2 sm:mr-3 flex-shrink-0">
+                                <i class="fas fa-shopping-cart text-primary text-xs sm:text-sm"></i>
+                            </div>
+                            <div class="min-w-0">
+                                <p class="text-xs sm:text-sm font-medium text-gray-900 truncate">${o.date_created}-${o.order_id}</p>
+                                <p class="text-xs text-gray-500">${time} ${sub}</p>
+                            </div>
+                        </div>
+                        <span class="text-xs sm:text-sm font-bold text-gray-900 ml-2">${formatPeso(o.total_payment_due)}</span>
+                    </div>`;
+                }).join('');
+                $recentOrdersList.html(`<div class="space-y-2 sm:space-y-3">${items}</div>`);
+            } else {
+                $recentOrdersList.html(`
+                <div class="text-center py-4 sm:py-6">
+                    <div class="w-12 h-12 sm:w-16 sm:h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-3">
+                        <i class="fas fa-receipt text-gray-400 text-xl sm:text-2xl"></i>
+                    </div>
+                    <p class="text-xs sm:text-sm text-gray-500">No orders yet today</p>
+                </div>`);
+            }
+
+            $('#totalProducts').text(Number(data.totalProducts).toLocaleString());
+            $('#totalRawMaterials').text(Number(data.totalRawMaterials).toLocaleString());
+            $('#lowStockCount').text(lowStock.length).attr('class', `text-lg font-bold ${lowStock.length > 0 ? 'text-red-600' : 'text-gray-900'}`);
+            $('#inventoryStatus').text(data.inventoryExists ? 'Done' : 'Pending').attr('class', `text-lg font-bold ${data.inventoryExists ? 'text-green-600' : 'text-red-600'}`);
+
+            if (data.salesTrend) {
+                salesTrendData = data.salesTrend;
+                scheduleTrendDraw(true);
+            }
+        }
+
+        function drawSalesTrend(mode, force = false) {
+            const points = Array.isArray(salesTrendData[mode]) ? salesTrendData[mode] : [];
+            const canvas = trendEls.canvas;
+            if (!canvas) return;
+
+            const ctx = canvas.getContext('2d');
+            const ratio = window.devicePixelRatio || 1;
+            const cssWidth = canvas.parentElement ? canvas.parentElement.clientWidth - 24 : 700;
+            const cssHeight = canvas.parentElement ? canvas.parentElement.clientHeight - 24 : 260;
+
+            if (!force && trendState.width === cssWidth && trendState.height === cssHeight && trendState.mode === mode && trendState.type === currentChartType) return;
+
+            trendState = { width: cssWidth, height: cssHeight, mode, type: currentChartType };
+            canvas.width = Math.floor(cssWidth * ratio);
+            canvas.height = Math.floor(cssHeight * ratio);
+            ctx.setTransform(ratio, 0, 0, ratio, 0, 0);
+            ctx.clearRect(0, 0, cssWidth, cssHeight);
+            trendPlotPoints = [];
+
+            const GREEN = '#16a34a';
+            const GREEN_LIGHT = '#bbf7d0';
+            const GRAY_LINE = '#e5e7eb';
+            const GRAY_LABEL = '#9ca3af';
+
+            if (!points.length) {
+                ctx.fillStyle = GRAY_LABEL;
+                ctx.font = `${cssWidth < 400 ? 12 : 14}px sans-serif`;
+                ctx.textAlign = 'center';
+                ctx.fillText('No data available', cssWidth / 2, cssHeight / 2);
+                $(trendEls.low).text(formatPeso(0));
+                $(trendEls.high).text(formatPeso(0));
+                $(trendEls.total).text(formatPeso(0));
+                trendLastPoints = [];
+                hideTrendTooltip();
+                return;
+            }
+
+            const labels = points.map(p => p.label || '');
+            const values = points.map(p => Number(p.value) || 0);
+            const maxVal = Math.max(...values, 1);
+            const totalVal = values.reduce((sum, value) => sum + value, 0);
+
+            $(trendEls.low).text(formatPeso(Math.min(...values)));
+            $(trendEls.high).text(formatPeso(maxVal));
+            $(trendEls.total).text(formatPeso(totalVal));
+
+            const subtitles = {
+                daily: 'Daily sales for the last 14 days.',
+                weekly: 'Weekly sales for the last 8 weeks.',
+                monthly: 'Monthly sales for the last 12 months.'
+            };
+            if (trendEls.subtitle) $(trendEls.subtitle).text(subtitles[mode] || '');
+
+            const isSmall = cssWidth < 480;
+            const fontSize = isSmall ? 9 : 11;
+            const pad = {
+                top: 20,
+                right: isSmall ? 8 : 16,
+                bottom: isSmall ? 50 : (mode === 'daily' || labels.length > 8 ? 54 : 40),
+                left: isSmall ? 44 : 52
+            };
+
+            const chartW = cssWidth - pad.left - pad.right;
+            const chartH = cssHeight - pad.top - pad.bottom;
+            const scaleY = v => pad.top + chartH - (v / maxVal) * chartH;
+
+            const ySteps = 4;
+            ctx.font = `${fontSize}px sans-serif`;
+            for (let i = 0; i <= ySteps; i++) {
+                const v = (maxVal * i) / ySteps;
+                const y = scaleY(v);
+
+                ctx.beginPath();
+                ctx.strokeStyle = i === 0 ? '#d1d5db' : GRAY_LINE;
+                ctx.lineWidth = i === 0 ? 1.5 : 1;
+                ctx.setLineDash(i === 0 ? [] : [3, 3]);
+                ctx.moveTo(pad.left, y);
+                ctx.lineTo(pad.left + chartW, y);
+                ctx.stroke();
+                ctx.setLineDash([]);
+
+                ctx.fillStyle = GRAY_LABEL;
+                ctx.textAlign = 'right';
+                ctx.textBaseline = 'middle';
+                const label = v >= 1000 ? '₱' + (v / 1000).toFixed(v % 1000 === 0 ? 0 : 1) + 'k' : '₱' + Math.round(v);
+                ctx.fillText(label, pad.left - 6, y);
+            }
+
+            const slotW = chartW / labels.length;
+            const stepX = labels.length > 1 ? chartW / (labels.length - 1) : 0;
+            const shouldRotate = mode === 'daily' || labels.length > 8;
+
+            ctx.fillStyle = GRAY_LABEL;
+            ctx.font = `${fontSize}px sans-serif`;
+            ctx.textBaseline = 'top';
+
+            labels.forEach((lbl, idx) => {
+                const x = currentChartType === 'bar'
+                    ? pad.left + slotW * idx + slotW / 2
+                    : pad.left + stepX * idx;
+
+                let display = lbl;
+                if (mode === 'weekly' && isSmall) {
+                    display = lbl.split(' - ')[0];
+                }
+
+                if (shouldRotate) {
+                    ctx.save();
+                    ctx.translate(x, cssHeight - pad.bottom + 6);
+                    ctx.rotate(-Math.PI / 4);
+                    ctx.textAlign = 'right';
+                    ctx.fillText(display, 0, 0);
+                    ctx.restore();
+                } else {
+                    ctx.textAlign = 'center';
+                    ctx.fillText(display, x, cssHeight - pad.bottom + 6);
+                }
+            });
+
+            if (currentChartType === 'bar') {
+                const barW = Math.max(4, Math.min(isSmall ? 24 : 36, slotW * 0.55));
+                const radius = Math.min(4, barW / 3);
+
+                values.forEach((val, idx) => {
+                    const cx = pad.left + slotW * idx + slotW / 2;
+                    const topY = scaleY(val);
+                    const barH = Math.max(val > 0 ? 2 : 0, pad.top + chartH - topY);
+                    const x = cx - barW / 2;
+
+                    if (barH === 0) {
+                        trendPlotPoints.push({ x: cx, y: pad.top + chartH, label: labels[idx], value: val });
+                        return;
+                    }
+
+                    const grad = ctx.createLinearGradient(0, topY, 0, topY + barH);
+                    grad.addColorStop(0, GREEN);
+                    grad.addColorStop(1, GREEN_LIGHT);
+                    ctx.fillStyle = grad;
+
+                    ctx.beginPath();
+                    ctx.moveTo(x + radius, topY);
+                    ctx.lineTo(x + barW - radius, topY);
+                    ctx.quadraticCurveTo(x + barW, topY, x + barW, topY + radius);
+                    ctx.lineTo(x + barW, topY + barH);
+                    ctx.lineTo(x, topY + barH);
+                    ctx.lineTo(x, topY + radius);
+                    ctx.quadraticCurveTo(x, topY, x + radius, topY);
+                    ctx.closePath();
+                    ctx.fill();
+
+                    trendPlotPoints.push({ x: cx, y: topY, label: labels[idx], value: val });
+                });
+            } else {
+                const areaGrad = ctx.createLinearGradient(0, pad.top, 0, pad.top + chartH);
+                areaGrad.addColorStop(0, 'rgba(22,163,74,0.18)');
+                areaGrad.addColorStop(1, 'rgba(22,163,74,0)');
+
+                ctx.beginPath();
+                values.forEach((val, idx) => {
+                    const x = pad.left + stepX * idx;
+                    const y = scaleY(val);
+                    idx === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+                });
+                ctx.lineTo(pad.left + stepX * (values.length - 1), pad.top + chartH);
+                ctx.lineTo(pad.left, pad.top + chartH);
+                ctx.closePath();
+                ctx.fillStyle = areaGrad;
+                ctx.fill();
+
+                ctx.beginPath();
+                values.forEach((val, idx) => {
+                    const x = pad.left + stepX * idx;
+                    const y = scaleY(val);
+                    idx === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+                });
+                ctx.strokeStyle = GREEN;
+                ctx.lineWidth = 2.5;
+                ctx.lineJoin = 'round';
+                ctx.stroke();
+
+                values.forEach((val, idx) => {
+                    const x = pad.left + stepX * idx;
+                    const y = scaleY(val);
+                    const r = isSmall ? 3 : 4;
+
+                    ctx.beginPath();
+                    ctx.arc(x, y, r + 1.5, 0, Math.PI * 2);
+                    ctx.fillStyle = '#ffffff';
+                    ctx.fill();
+
+                    ctx.beginPath();
+                    ctx.arc(x, y, r, 0, Math.PI * 2);
+                    ctx.fillStyle = GREEN;
+                    ctx.fill();
+
+                    trendPlotPoints.push({ x, y, label: labels[idx], value: val });
+                });
+            }
+
+            trendLastPoints = trendPlotPoints;
+        }
+
+        function hideTrendTooltip() {
+            $(trendEls.tooltip).addClass('hidden');
+        }
+
+        function showTrendTooltip(clientX, clientY) {
+            if (!trendEls.canvas || !trendEls.tooltip || !trendEls.canvasWrap || !trendLastPoints.length) return;
+
+            const rect = trendEls.canvas.getBoundingClientRect();
+            const localX = clientX - rect.left;
+            const localY = clientY - rect.top;
+
+            if (localX < 0 || localY < 0 || localX > rect.width || localY > rect.height) {
+                hideTrendTooltip();
+                return;
+            }
+
+            let nearest = trendLastPoints[0];
+            let minDist = Math.abs(localX - nearest.x);
+            $.each(trendLastPoints, function (_i, point) {
+                const d = Math.abs(localX - point.x);
+                if (d < minDist) {
+                    nearest = point;
+                    minDist = d;
+                }
+            });
+
+            const $tooltip = $(trendEls.tooltip);
+            $tooltip.html(`${nearest.label}<br><strong>${formatPeso(nearest.value)}</strong>`).removeClass('hidden');
+
+            const wrapRect = trendEls.canvasWrap.getBoundingClientRect();
+            const tipW = $tooltip.outerWidth();
+            const tipH = $tooltip.outerHeight();
+            let left = nearest.x + 10;
+            let top = nearest.y - tipH - 8;
+            if (left + tipW > wrapRect.width - 6) left = wrapRect.width - tipW - 6;
+            if (left < 6) left = 6;
+            if (top < 6) top = nearest.y + 10;
+            $tooltip.css({ left: `${left}px`, top: `${top}px` });
+        }
+
+        function scheduleTrendDraw(force = false) {
+            if (trendRenderRafId !== null) cancelAnimationFrame(trendRenderRafId);
+            trendRenderRafId = requestAnimationFrame(() => {
+                trendRenderRafId = null;
+                drawSalesTrend(currentTrendMode, force);
+            });
+        }
+
+        function setTrendMode(mode) {
+            currentTrendMode = mode;
+            $('.sales-trend-toggle').each(function () {
+                const active = $(this).data('mode') === mode;
+                $(this).toggleClass('bg-primary text-white', active)
+                    .toggleClass('bg-white text-gray-600', !active);
+            });
+            scheduleTrendDraw(true);
+        }
+
+        function setChartType(type) {
+            currentChartType = type === 'bar' ? 'bar' : 'line';
+            $('.sales-chart-type-toggle').each(function () {
+                const active = $(this).data('type') === currentChartType;
+                $(this).toggleClass('bg-primary text-white', active)
+                    .toggleClass('bg-white text-gray-600', !active);
+            });
+            if (trendEls.title) {
+                const icon = currentChartType === 'bar' ? 'fa-chart-bar' : 'fa-chart-line';
+                $(trendEls.title).html(`<i class="fas ${icon} text-primary mr-2"></i>Sales Report Trend`);
+            }
+            scheduleTrendDraw(true);
+        }
+
+        $(document).ready(function () {
+            trendEls.canvas = document.getElementById('salesTrendCanvas');
+            trendEls.subtitle = document.getElementById('salesTrendSubtitle');
+            trendEls.low = document.getElementById('salesTrendLow');
+            trendEls.high = document.getElementById('salesTrendHigh');
+            trendEls.total = document.getElementById('salesTrendTotal');
+            trendEls.title = document.getElementById('salesTrendTitle');
+            trendEls.tooltip = document.getElementById('salesTrendTooltip');
+            trendEls.canvasWrap = document.getElementById('salesTrendCanvasWrap');
+
+            if (trendEls.canvas) {
+                $(trendEls.canvas)
+                    .on('mousemove', e => showTrendTooltip(e.clientX, e.clientY))
+                    .on('mouseleave', hideTrendTooltip)
+                    .on('touchstart', e => {
+                        const t = e.originalEvent.touches[0];
+                        if (t) showTrendTooltip(t.clientX, t.clientY);
+                    })
+                    .on('touchmove', e => {
+                        const t = e.originalEvent.touches[0];
+                        if (t) showTrendTooltip(t.clientX, t.clientY);
+                    })
+                    .on('touchend', hideTrendTooltip);
+            }
+
+            $(document).on('click', '.sales-trend-toggle', function () {
+                setTrendMode($(this).data('mode') || 'daily');
+            });
+
+            $(document).on('click', '.sales-chart-type-toggle', function () {
+                setChartType($(this).data('type') || 'line');
+            });
+
+            $(window).on('resize', function () {
+                if (trendResizeTimer !== null) clearTimeout(trendResizeTimer);
+                trendResizeTimer = setTimeout(() => {
+                    trendResizeTimer = null;
+                    hideTrendTooltip();
+                    scheduleTrendDraw(true);
+                }, 120);
+            });
+
+            $('#adminName').text('Admin');
+            updateClock();
+            setInterval(updateClock, 1000);
+            populateDashboard(demoDashboardData);
+            setTrendMode('daily');
+            setChartType('line');
+        });
+    </script>
+</body>
+</html>
